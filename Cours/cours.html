@@ -1,0 +1,884 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Git : Apprendre à utiliser un gestionnaire de code source</title>
+  <link rel="stylesheet" href="./lib/prism/prism.css" type="text/css">
+  <link rel="stylesheet" href="./css/style.css" type="text/css">
+  <link type="image/x-icon" rel="icon" href="img/favicon.png">
+  <link type="image/x-icon" rel="shortcut icon" href="img/favicon.png">
+  <script src="./lib/prism/prism.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1><strong>Git</strong>&nbsp;: Apprendre à utiliser un gestionnaire de code source</h1>
+    <div class="copyright">
+      <p><strong>Git</strong>&nbsp;: Apprendre à utiliser un gestionnaire de code source - Sami Radi - <a
+          target="_blank" href="http://www.virtuoworks.com/" title="VirtuoWorks">VirtuoWorks&reg;</a> - tous droits
+        réservés&copy;</p>
+    </div>
+    <div class="page-break"></div>
+    <h2>Sommaire</h2>
+    <nav>
+      <ol>
+        <li>
+          <p><a href="#/chapitre-1">L'outil <strong>Git</strong></a></p>
+          <ol>
+            <li>
+              <p><a href="#/chapitre-1/partie-1">Notion de gestionnaire de code source</a></p>
+            </li>
+            <li>
+              <p><a href="#/chapitre-1/partie-3">Présentation de l'outil <strong>Git</strong> client et
+                  <strong>Git</strong> serveur</a></p>
+            </li>
+            <li>
+              <p><a href="#/chapitre-1/partie-2">Installer l'outil <strong>Git</strong> client</a></p>
+            </li>
+            <li>
+              <p><a href="#/chapitre-1/partie-4">Utiliser l'outil <strong>Git</strong> client en ligne de commande</a>
+              </p>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <p><a href="#/chapitre-2">Cas d'utilisation</a></p>
+          <ol>
+            <li>
+              <p><a href="#/chapitre-2/partie-1">Créer un nouveau projet</a></p>
+            </li>
+            <li>
+              <p><a href="#/chapitre-2/partie-2">Cloner et travailler sur un projet existant</a></p>
+            </li>
+            <li>
+              <p><a href="#/chapitre-2/partie-3">Créer et travailler sur une branche d'un projet</a></p>
+            </li>
+            <li>
+              <p><a href="#/chapitre-2/partie-4">Reprendre une version antérieure d'un projet</a></p>
+            </li>
+            <li>
+              <p><a href="#/chapitre-2/partie-5">Autres cas d'utilisation</a></p>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </nav>
+  </header>
+  <section class="chapitre chapitre-1" id="/chapitre-1">
+    <header>
+      <h3>1. L'outil <strong>Git</strong></h3>
+      <nav>
+        <ol>
+          <li>
+            <p><a href="#/chapitre-1/partie-1">Notion de gestionnaire de code source</a></p>
+          </li>
+          <li>
+            <p><a href="#/chapitre-1/partie-3">Présentation de l'outil <strong>Git</strong> client et
+                <strong>Git</strong> serveur</a></p>
+          </li>
+          <li>
+            <p><a href="#/chapitre-1/partie-2">Installer l'outil <strong>Git</strong> client</a></p>
+          </li>
+          <li>
+            <p><a href="#/chapitre-1/partie-4">Utiliser l'outil <strong>Git</strong> client en ligne de commande</a></p>
+          </li>
+        </ol>
+      </nav>
+    </header>
+    <section class="partie partie-1 chapitre-1-partie-1" id="/chapitre-1/partie-1">
+      <h4>1.1. Notion de gestionnaire de code source</h4>
+      <p>Un gestionnaire de code source (&laquo;&nbsp;source code manager&nbsp;&raquo;, en anglais) est un outil qui
+        nous permet d'effectuer le suivi des modifications effectuées sur un ou plusieurs fichiers de travail.</p>
+      <p>Ce type d'outils permet de gérer une base de données contenant l'historique des versions des fichiers source
+        d'un projet pour créer, consulter, modifier ou supprimer différentes versions de ces fichiers dans le temps.</p>
+      <p>Historiquement, les systèmes de gestion de versions étaient centralisés (comme SVN ou Mercurial). L'ensemble
+        des versions était stocké en ligne sur un serveur. Cela signifiait qu'à chaque modification du code source, le
+        code devait être envoyé sur le serveur central pour que la modification du code soit enregistrée. Cela
+        signifiait également qu'il fallait régulièrement télécharger la base de données des modifications pour mettre à
+        jour son projet local avec les dernières modifications effectuées sur le projet par d'autres personnes.</p>
+      <p>Le système <strong>Git</strong> à introduit, en plus de la centralisation des versions sur un serveur, la
+        possibilité d'avoir localement une copie de la base de données de suivi des versions. Il ne s'agit donc plus
+        d'envoyer au serveur ses modifications de code pour que la base de données des versions soit mise à jour mais
+        également de mettre à jour la base de données des versions avec sa propre version de la base de données des
+        versions.</p>
+      <p>Cette approche permet de pouvoir travailler sur un projet et d'effectuer un suivi des versions y compris
+        lorsque la base de données centrale est inaccessible.</p>
+      <p>Pour en savoir plus sur la gestion des versions, on pourra consulter la documentation officielle de
+        <strong>Git</strong> à ce sujet <a target="_blank"
+          href="https://git-scm.com/book/fr/v2/D%C3%A9marrage-rapide-%C3%80-propos-de-la-gestion-de-version"
+          title="A propos de la gestion des versions sur le site officiel de Git">ici</a>.
+      </p>
+    </section>
+    <section class="partie partie-2 chapitre-1-partie-2" id="/chapitre-1/partie-2">
+      <h4>1.2. Présentation de l'outil <strong>Git</strong> client et <strong>Git</strong> serveur</h4>
+      <p>L'outil <strong>Git</strong> se compose en fait de 2 logiciels :</p>
+      <ul>
+        <li>
+          <p>Un client, qui permet de gérer une ou plusieurs bases de données <strong>Git</strong> sur l'ordinateur d'un
+            individu. Le <b>dépôt local</b> (en anglais, <b><i>local repository</i></b>).</p>
+        </li>
+        <li>
+          <p>Un serveur, qui permet de gérer une ou plusieurs bases de données <strong>Git</strong> sur un ordinateur
+            auquel plusieurs individus ont accès. Le <b>dépôt distant</b> (en anglais, <b><i>remote repository</i></b>).
+          </p>
+        </li>
+      </ul>
+      <p>Ces deux outils sont gratuits. L'outil <strong>Git</strong> client et serveur peut être téléchargé <a
+          target="_blank" href="https://git-scm.com/" title="Site officiel de Git">ici</a>. La partie serveur de l'outil
+        <strong>Git</strong> est rudimentaire. C'est pourquoi on trouve des logiciels serveur gratuits et très élaborés,
+        basés sur <strong>Git</strong>, pour la gestion des fichiers sources, comme par exemple <a target="_blank"
+          href="https://about.gitlab.com/downloads/" title="Site officiel de GitLab">GitLab</a>.
+      </p>
+      <p>Des entreprises comme <a target="_blank" href="https://bitbucket.org/product"
+          title="site officiel de BitBucket">BitBucket</a> ou <a target="_blank" href="https://github.com/"
+          title="site officiel de GitHub">GitHub</a> proposent également d'héberger des bases de données de versions de
+        code source ainsi que le code source lui-même. Ces entreprises proposent des offres commerciales pouvant être
+        gratuites dans certains cas et payantes dans d'autres. Dans le cas où on fait appel au service de ces hébérgeurs
+        spécialisés, on utilisera uniquement la partie client de <strong>Git</strong> pour gérer ses versions.</p>
+    </section>
+    <section class="partie partie-3 chapitre-1-partie-3" id="/chapitre-1/partie-3">
+      <h4>1.3. Installer l'outil <strong>Git</strong> client</h4>
+      <p>Pour installer l'outil <strong>Git</strong> client, il faut se rendre sur le <a target="_blank"
+          href="https://git-scm.com/" title="Site officiel de Git">site officiel de <strong>Git</strong></a>, à la
+        rubrique &laquo;&nbsp;Downloads&nbsp;&raquo;. Il faut ensuite suivre les instructions pour installer
+        <strong>Git</strong> selon le système d'exploitation utilisé.
+      </p>
+      <p>Une fois <strong>Git</strong> installé, la première chose à faire sera d'ouvrir un terminal. Nous pourrons
+        alors vérifier que <strong>Git</strong> est bien installé et est accessible n'importe où en tapant la commande
+        suivante (attention, ici le symbole # représente un commentaire dans le terminal)&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour que Git affiche sa version d'installation :
+git --version
+
+# Pour que Git affiche l'ensemble des commandes disponibles :
+git --help
+
+          </code>
+        </pre>
+      <p>Une des premières choses à faire, avant de continuer à explorer les possibilités offertes par
+        <strong>Git</strong> est de le personnaliser.
+      </p>
+      <pre>
+          <code class="language-bash">
+# Pour indiquer à Git un nom d'utilisateur :
+git config --global user.name "Robert Dupont"
+
+# Pour indiquer à Git une adresse e-mail :
+git config --global user.email "robert.dupont@evilcorp.com"
+
+          </code>
+        </pre>
+      <p>Cette configuration nous permettra de faire en sorte que toutes les modifications de code source qui seront
+        enregistrées à l'aide de <strong>Git</strong> soient identifiées comme étant effectuées par &laquo;&nbsp;Robert
+        Dupont&nbsp;&raquo; avec l'adresse e-mail &laquo;&nbsp;robert.dupont@evilcorp.com&nbsp;&raquo;.</p>
+      <p>La liste des configurations de <strong>Git</strong> qui peuvent être effectuées est documentée <a
+          target="_blank" href="https://git-scm.com/book/fr/v1/Personnalisation-de-Git-Configuration-de-Git"
+          title="Documentation officielle de Git sur la configuration de Git">ici</a>. On peut également la consulter en
+        tapant la commande suivante&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour afficher la liste des commandes de configuration
+# disponibles :
+git config --help
+
+          </code>
+        </pre>
+    </section>
+    <section class="partie partie-4 chapitre-1-partie-4" id="/chapitre-1/partie-4">
+      <h4>1.4. Utiliser l'outil <strong>Git</strong> client en ligne de commande</h4>
+      <p>L'utilisation de l'outil <strong>Git</strong> en ligne de commande consiste à&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour appeler le programme Git (git) suivi d'une option
+# (--version) de la commande. Ici, par exemple, Git
+# affiche son numéro de version :
+git --version
+
+# -> appeler le programme Git (git) suivi d'une sous commande
+# (&laquo;tag&raquo;). Ici, par exemple, Git affiche la liste
+# des &laquo;tag&raquo; (généralement le numéro de version)
+# d'un projet suivi par Git :
+git tag
+
+# -> appeler le programme Git (git) suivi d'une sous commande
+# (config) et d'une de ses options (--global) et d'une variable
+# (user.email). Ici, par exemple, Git affiche l'adresse e-mail
+# configurée :
+git config --global user.email
+
+# -> appeler le programme Git (git) suivi d'une sous commande
+# (config) et d'une de ses options (--global) et d'une variable
+# (user.email) et de la valeur associée.
+# (ici &laquo;robert.dupont@benevolentcorp.com&raquo;). Ici, par
+# exemple, modifier l'adresse e-mail configurée pour Git :
+git config --global user.email "robert.dupont@benevolentcorp.com"
+
+          </code>
+        </pre>
+      <p>La documentation de référence associée à l'ensemble des commandes <strong>Git</strong> est disponible <a
+          target="_blank" href="https://git-scm.com/docs" title="Documentation officielle de Git (Référence)">ici</a>.
+        On trouve également, sur le site officiel de <strong>Git</strong>, une <a target="_blank"
+          href="https://git-scm.com/book/fr/v2" title="Documentation officielle de Git (Livre)">documentation en
+          français</a> pour l'apprentissage complet de l'utilisation de <strong>Git</strong>.</p>
+    </section>
+  </section>
+  <section class="chapitre chapitre-2" id="/chapitre-2">
+    <header>
+      <h3>2. Cas d'utilisation</h3>
+      <nav>
+        <ol>
+          <li>
+            <p><a href="#/chapitre-2/partie-1">Créer un nouveau projet</a></p>
+          </li>
+          <li>
+            <p><a href="#/chapitre-2/partie-2">Cloner et travailler sur un projet existant</a></p>
+          </li>
+          <li>
+            <p><a href="#/chapitre-2/partie-3">Créer et travailler sur une branche d'un projet</a></p>
+          </li>
+          <li>
+            <p><a href="#/chapitre-2/partie-4">Reprendre une version antérieure d'un projet</a></p>
+          </li>
+          <li>
+            <p><a href="#/chapitre-2/partie-5">Autres cas d'utilisation</a></p>
+          </li>
+        </ol>
+      </nav>
+    </header>
+    <section class="partie partie-1 chapitre-2-partie-1" id="/chapitre-2/partie-1">
+      <h4>2.1. Créer un nouveau projet</h4>
+      <h5>Initialiser un dépôt local</h5>
+      <p>La création d'un dépôt <strong>Git</strong> est documentée <a target="_blank"
+          href="https://git-scm.com/book/fr/v1/Les-bases-de-Git-D%C3%A9marrer-un-d%C3%A9p%C3%B4t-Git"
+          title="Les bases de Git - Démarrer un dépôt Git">ici</a>. En bref, pour créer un nouveau projet avec suivi du
+        code source, il faut créer un dossier de travail et initialiser un dépôt <strong>Git</strong> dans ce dossier.
+        Pour ce faire, on peut taper en ligne de commande&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour créer un dossier intitulé projet :
+mkdir projet
+
+# Pour se positionner dans le dossier :
+cd projet
+
+# Pour initialiser une base de données Git dans ce dossier :
+git init
+
+          </code>
+        </pre>
+      <p>On remarquera, suite à l'initialisation du dépôt, la création d'un dossier
+        &laquo;&nbsp;<i>.git</i>&nbsp;&raquo; (attention les dossiers préfixés par un &laquo;&nbsp;<i>.</i>&nbsp;&raquo;
+        sont des dossiers cachés sur les stations UNIX comme Linux ou Mac OS). Ce dossier est le dossier contenant
+        l'ensemble des méta-données de suivi du code source qui sera créé dans le dossier du projet. En d'autres termes,
+        il s'agit de la <b>base de données <strong>Git</strong> de suivi des versions pour ce dossier</b>.</p>
+      <p>On obtient donc l'arborescence de dossiers suivante&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+projet
+  |_.git
+          </code>
+        </pre>
+      <h5>Effectuer son premier &laquo;&nbsp;commit&nbsp;&raquo;</h5>
+      <p>La première étape d'un projet commence généralement par la création d'un fichier
+        &laquo;&nbsp;<i>README</i>&nbsp;&raquo; (&laquo;&nbsp;<i>LISEZMOI</i>&nbsp;&raquo; en français) qui contiendra
+        un ensemble d'informations concernant le projet&nbsp;: son titre, une présentation de ses objectifs, les
+        instructions d'installation, d'utilisation, les dépendances, la licence logicielle, etc. Ce fichier est
+        généralement écrit au format &laquo;&nbsp;<i>.md</i>&nbsp;&raquo; (MarkDown) qui est un méta-langage de
+        présentation et de mise en forme de texte. Ce format est automatiquement interprété et rendu par les 2
+        principaux hébérgeurs <strong>Git</strong> que sont GitHub et BitBucket. Pour créer le fichier
+        &laquo;&nbsp;<i>README.md</i>&nbsp;&raquo; on peut s'aider de cet <a target="_blank"
+          href="https://stackedit.io/editor" title="éditeur de MarkDown stackedit">éditeur en ligne</a> et de ce <a
+          target="_blank" href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+          title="récapitulatif des symboles du format MarkDown sur GitHub">document récapitulatif de l'ensemble des
+          symboles acceptés pour le format MarkDown</a>.</p>
+      <p>On peut, par exemple, créer un fichier avec le code suivant (attention, ici le symbole # en MarkDown est
+        l'équivalent d'un balise &lt;h1&gt; en HTML):</p>
+      <pre>
+          <code class="language-markdown">
+#Projet expérimental
+Ceci est un projet expérimental
+          </code>
+        </pre>
+      <p>On obtiendra donc l'arborescence suivant&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+projet
+  |_.git
+  |_README.md
+          </code>
+        </pre>
+      <p>Pour ajouter ce fichier à la base de données des versions de fichiers suivis par <strong>Git</strong>, on
+        exécutera la commande <strong>Git</strong> suivante (tout en étant <strong>dans le dossier du
+          projet</strong>)&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour ajouter le fichier à la liste des fichiers suivis par Git :
+git add README.md
+
+# Pour enregistrer définitivement les modifications apportées
+# au projet :
+git commit -m "Initial README.md commit"
+
+# Pour vérifier que Git à bien enregistré les modifications
+# des fichiers du projet :
+git log
+
+# Pour modifier le dernier &laquo;commit&raquo; effectué
+# (et qui N'A PAS ENCORE été poussé (push) dans le dépôt distant) :
+git commit --amend -m "Initial README.md commit !"
+
+          </code>
+        </pre>
+      <p>On appelle l'enregistrement d'une nouvelle version d'un ou plusieurs fichiers un
+        &laquo;&nbsp;<b>commit</b>&nbsp;&raquo;. Lorsqu'on effectue un &laquo;&nbsp;commit&nbsp;&raquo;, l'ensemble des
+        modifications effectuées sur l'ensemble des fichiers suivis par <strong>Git</strong> est enregistré comme étant
+        une nouvelle version de ces mêmes fichiers.</p>
+      <p>La commande &laquo;&nbsp;<i>git log</i>&nbsp;&raquo; permet d'afficher l'historique des
+        &laquo;&nbsp;commit&nbsp;&raquo; effectués. Si on veut savoir quels sont les fichiers pour lesquels le suivi des
+        versions est activé, on peut écrire&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour savoir quels sont les fichiers suivis par Git :
+git ls-files
+
+          </code>
+        </pre>
+      <h5>Supprimer des fichier de la liste de fichiers suivis</h5>
+      <p>Créons un fichier intitulé &laquo;&nbsp;<i>"SECRET.md",</i>&nbsp;&raquo; toujours en MarkDown&nbsp;:</p>
+      <pre>
+          <code class="language-markdown">
+#Secret
+Ceci est un secret
+
+          </code>
+        </pre>
+      <p>Effectuons à nouveau un &laquo;&nbsp;commit&nbsp;&raquo; mais en ajoutant le fichier secret à la liste des
+        fichiers à suivre.</p>
+      <pre>
+          <code class="language-bash">
+git add SECRET.md
+git commit -m "SECRET.md commit"
+
+          </code>
+        </pre>
+      <p>On peut à tout moment consulter la liste des fichiers suivis par <strong>Git</strong> en écrivant&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Affiche la liste des fichiers suivis par Git, les modifications
+# en attente de &laquo;commit&raquo; et la branche 
+# (version du projet) en cours :
+git status
+
+          </code>
+        </pre>
+      <p>On peut à tout moment retirer un fichier de la liste des fichiers dont les versions sont suivies par
+        <strong>Git</strong> en écrivant&nbsp;:
+      </p>
+      <pre>
+          <code class="language-bash">
+# Retire le fichier SECRET.md de la liste des fichiers
+# suivis par Git :
+git rm --cached SECRET.md
+
+          </code>
+        </pre>
+      <p>Enfin, si on souhaite faire en sorte que ce fichier soit ignoré <strong><em>en permanence</em></strong> par
+        <strong>Git</strong>, on peut créer un fichier &laquo;&nbsp;<i>.gitignore</i>&nbsp;&raquo; dans lequel on peut
+        mettre le nom des fichiers à ignorer en permanence. Dans le fichier &laquo;&nbsp;<i>.gitignore</i>&nbsp;&raquo;,
+        on n'oubliera pas de mettre le fichier &laquo;&nbsp;<i>.gitignore</i>&nbsp;&raquo;, lui-même, qui doit aussi
+        être ignoré. Dans notre cas, le fichier &laquo;&nbsp;<i>.gitignore</i>&nbsp;&raquo; contiendrait&nbsp;:
+      </p>
+      <pre>
+          <code class="language-bash">
+# Ignorer le fichier .gitignore :
+.gitignore
+
+# Ignorer le fichier SECRET.md
+SECRET.md
+
+          </code>
+        </pre>
+      <p>Lorsqu'un fichier qui était suivi est ajouté à la liste du fichier &laquo;&nbsp;<i>.gitignore</i>&nbsp;&raquo;,
+        il est, du point de vue de <strong>Git</strong>, supprimé de la base de données de suivi. Pour effacer toute
+        référence à ce fichier dans la base de données de suivi de <strong>Git</strong> on écrira la commande
+        suivante&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Supprimer complètement les entrées dans la base de données de
+# suivi de versions concernant le fichier SECRET.md :
+git reset HEAD SECRET.md
+
+# Ensuite, on affiche la liste des &laquo;commit&raquo; effectués
+# jusqu'à présent :
+git log
+
+# On remarque que chaque &laquo;commit&raquo; a un identifiant
+# unique de la forme abcdef1234567890abcdef1234567890abcdef12.
+# On note l'identifiant du &laquo;commit&raquo; initial et on
+# va se repositionner sur la version précédant le &laquo;commit&raquo;
+# du fichier SECRET.md :
+git reset --soft abcdef1234567890abcdef1234567890abcdef12
+
+# On affiche à nouveau la liste des &laquo;commit&raquo; effectués
+# jusqu'à présent :
+git log
+
+# On remarque que le &laquo;commit&raquo; du fichier SECRET.md a
+# maintenant disparu de la liste de &laquo;commit&raquo; effectués.
+
+          </code>
+        </pre>
+      <h5>Indiquer le numéro de version du projet</h5>
+      <p>On peut souhaiter indiquer un numéro de version lorsque le projet atteint un niveau de maturité suffisant et
+        qu'on est en mesure d'en avoir une version stable et fonctionnelle. Il s'agit de marquer une version avec un
+        &laquo;&nbsp;tag&nbsp;&raquo; de version. Par exemple&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Création d'un nouveau &laquo;tag&raquo; pour identifier la
+# version 0.0.1 avec le message "Version 0.0.1" :
+git tag -a 0.0.1 -m "Version 0.0.1"
+
+# Lister les &laquo;tag&raquo; sur le projet et vérifier que
+# notre nouveau &laquo;tag&raquo; est bien listé :
+git tag
+
+# Consulter le détail de la version correspondant à un
+# &laquo;tag&raquo; :
+git show 0.0.1
+
+# Supprimer un &laquo;tag&raquo; :
+git tag -d 0.0.1
+
+          </code>
+        </pre>
+    </section>
+    <section class="partie partie-2 chapitre-2-partie-2" id="/chapitre-2/partie-2">
+      <h4>2.2. Cloner et travailler sur un projet existant</h4>
+      <h5>Cloner un projet existant</h5>
+      <p>Lorsque le projet existe déjà et qu'il est hébergé sur un système serveur <strong>Git</strong>, on peut le
+        cloner pour en obtenir une version locale de travail. Pour ce faire, il faut récupérer l'URL d'hébergement du
+        projet. Cet URL peut être de la forme&nbsp;:</p>
+      <ul>
+        <li>
+          <p>ssh://[utilisateur@]hôte.xz[:port]/chemin/vers/le/depôt.git/</p>
+        </li>
+        <li>
+          <p>ou&nbsp;: git://hôte.xz[:port]/chemin/vers/le/depôt.git/</p>
+        </li>
+        <li>
+          <p>ou&nbsp;: http[s]://hôte.xz[:port]/chemin/vers/le/depôt.git/</p>
+        </li>
+        <li>
+          <p>ou&nbsp;: ftp[s]://hôte.xz[:port]/chemin/vers/le/depôt.git/</p>
+        </li>
+      </ul>
+      <p>On peut également cloner un <b>dossier local</b>. Pour le opérations de clonage de depôt, on utilise la
+        commande &laquo;&nbsp;<i>git clone</i>&nbsp;&raquo; documentée <a target="_blank"
+          href="https://git-scm.com/docs/git-clone"
+          title="Documentation officielle de Git pour la commande git clone">ici</a>.</p>
+      <p>Par exemple, pour cloner un dépôt sur GitHub on pourrait écrire&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Créer un dossier pour le projet :
+mkdir projet-existant
+
+# Se positionner dans ce nouveau dossier :
+cd projet-existant
+
+# Cloner un dépôt existant sur GitHub dans le dossier courant :
+git clone https://github.com/VirtuoWorks/electron-professional-grade-starter-kit.git
+
+          </code>
+        </pre>
+      <h5>Mettre à jour un dépôt distant à partir d'un dépôt local</h5>
+      <p>Si on souhaite répercuter sur le dépôt distant (à partir duquel on a cloné le projet) les modifications faites
+        en local, on vérifie d'abord que l'adresse du dépôt distant pour ce dépôt local est correctement configurée.</p>
+      <pre>
+          <code class="language-bash">
+# Afficher l'adresse du dépôt distant configuré pour ce projet :
+git remote -v
+
+          </code>
+        </pre>
+      <p>On remarque que l'adresse du dépôt distant s'affiche sous la forme&nbsp;: <code>alias url (action)</code>.</p>
+      <ul>
+        <li>
+          <p><code>action</code> est soit &laquo;&nbsp;fetch&nbsp;&raquo; pour l'URL à partir de laquelle on peut
+            <b>télécharger</b> les mises à jour du projet, soit &laquo;&nbsp;push&nbsp;&raquo; pour l'URL à utiliser
+            pour <b>téléverser</b> les modifications effectuées sur le projet.
+          </p>
+        </li>
+        <li>
+          <p><code>url</code> est l'URL du dépôt distant. L'URL de téléchargement et l'URL de téléversement peuvent être
+            différentes et/ou on peut en utiliser plusieurs simultanément.</p>
+        </li>
+        <li>
+          <p><code>alias</code> nous permettra de saisir plus rapidement l'URL lors de l'utilisation de la commande de
+            téléchargement ou de téléversement.</p>
+        </li>
+      </ul>
+      <p>On peut ajouter ou retirer des dépôts distants en utilisant la commande &laquo;&nbsp;<i>git
+          remote</i>&nbsp;&raquo;. Cette commande est documentée <a target="_blank"
+          href="https://git-scm.com/docs/git-remote"
+          title="Documentation officielle de Git pour la commande git remote">ici</a>.</p>
+      <p>On peut alors procéder à la mise à jour du dépôt distant en utilisant la commande &laquo;&nbsp;<i>git
+          push</i>&nbsp;&raquo; documentée <a target="_blank" href="https://git-scm.com/docs/git-push"
+          title="Documentation officielle de Git pour la commande git push">ici</a>. On écrira par exemple&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour téléverser (upload) ses modifications vers le 
+# dépôt distant dont l'alias est "origin" :
+git push origin
+
+          </code>
+        </pre>
+      <p>Lorsqu'on utilise GitHub ou BitBucket pour créer un nouveau dépôt à partir d'un dépôt existant, on parle de
+        &laquo;&nbsp;<b><i>fork</i></b>&nbsp;&raquo;. Il s'agit en fait d'une <strong><em>opération de
+            clonage</em></strong> d'un dépôt sur GitHub ou BitBucket vers un nouveau dépôt sur GitHub ou BitBucket
+        respectivement. Donc le mot &laquo;&nbsp;<b><i>fork</i></b>&nbsp;&raquo; est équivalent à un projet cloné à
+        l'aide de &laquo;&nbsp;<b>git clone</b>&nbsp;&raquo; chez ces hébergeurs spécialisés.</p>
+      <h5>Mettre à jour un dépôt local à partir d'un dépôt distant</h5>
+      <p>Pour mettre à jour un dépôt local à partir d'un dépôt distant, on utilisera la commande &laquo;&nbsp;<i>git
+          fetch</i>&nbsp;&raquo; documentée <a target="_blank" href="https://git-scm.com/docs/git-fetch"
+          title="Documentation officielle de Git pour la commande git fetch">ici</a>. On écrira par exemple&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour télécharger (download) les modifications provenant du
+# dépôt distant dont l'alias est "origin" :
+git fetch origin
+
+# Cette commande met à jour la base de données du dépôt local mais PAS LES FICHIERS.
+# Pour afficher l'historique, mis à jour, des commit effectuées sur le dépôt distant :
+git log origin
+
+          </code>
+        </pre>
+      <p>Cette commande met à jour la base de données de suivi des versions (la liste des
+        &laquo;&nbsp;commit&nbsp;&raquo; en d'autres termes, mais <strong><em>pas les fichiers</em></strong> du dépôt
+        local). Si on souhaite maintenant répercuter sur les fichiers du dépôt local les modifications faites sur les
+        fichiers du dépôt distant, on utilisera la commande &laquo;&nbsp;<i>git merge</i>&nbsp;&raquo; documentée <a
+          target="_blank" href="https://git-scm.com/docs/git-merge"
+          title="Documentation officielle de Git pour la commande git merge">ici</a>. Cette commande permet de réunir
+        les historiques de développement provenant de deux dépôts différents.</p>
+      <p>Dans le dossier &laquo;&nbsp;.git&nbsp;&raquo;, le fichier &laquo;&nbsp;HEAD&nbsp;&raquo; contient une
+        référence au dernier &laquo;&nbsp;commit&nbsp;&raquo; du dépôt local et le fichier
+        &laquo;&nbsp;FETCH_HEAD&nbsp;&raquo; contient un référence au dernier &laquo;&nbsp;commit&nbsp;&raquo; du dépôt
+        distant.</p>
+      <pre>
+          <code class="language-bash">
+# Dans le dossier :
+.git
+  |_HEAD # contient une référence à la version du dépôt local
+  |_FETCH_HEAD # contient une référence à la version du dépôt distant
+          </code>
+        </pre>
+      <p>Pour mettre à jour les fichiers du dépôt local au niveau de ceux du dépôt distant, on écrira&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Mettre à jour les fichiers à partir des derniers
+# commits de la version distantes :
+git merge FETCH_HEAD
+
+          </code>
+        </pre>
+      <p>On peut également effectuer les 2 opérations (à savoir &laquo;&nbsp;<i>git fetch</i>&nbsp;&raquo; et
+        &laquo;&nbsp;<i>git merge</i>&nbsp;&raquo;) à l'aide de la commande &laquo;&nbsp;<i>git pull</i>&nbsp;&raquo;
+        documentée <a target="_blank" href="https://git-scm.com/docs/git-pull"
+          title="Documentation officielle de Git pour la commande git pull">ici</a>. On aurait alors pu écrire&nbsp;:
+      </p>
+      <pre>
+          <code class="language-bash">
+# Mettre à jour la base de données de suivi des
+# versions ET mettre à jour les fichiers :
+git pull origin
+
+          </code>
+        </pre>
+      <h5>Résolution des conflits</h5>
+      <p>Si des fichiers du dépôt local ont été également modifié sur le dépôt distant, <strong>Git</strong> marquera
+        dans chaque fichier le conflit à l'aide des symbole
+        &laquo;&nbsp;<i>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</i>&nbsp;&raquo;, &laquo;&nbsp;<i>=======</i>&nbsp;&raquo; et
+        &laquo;&nbsp;<i>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</i>&nbsp;&raquo;. Un conflit au sein d'un fichier se présente comme
+        suit&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+code
+&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+code conflictuel du dépôt local
+=======
+code conflictuel du dépôt distant
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+code
+          </code>
+        </pre>
+      <p>Il s'agit alors de passer en revue l'ensemble de conflits marqués et de les corriger. Ensuite&nbsp;:</p>
+      <ol>
+        <li>
+          <p>On effectue un &laquo;&nbsp;<i>commit</i>&nbsp;&raquo; dans lequel on indique la résolution du conflit;</p>
+        </li>
+        <li>
+          <p>On met à jour le dépôt distant avec le code dont on a résolu les conflits.</p>
+        </li>
+      </ol>
+      <p>On peut également utiliser des outils spécialisés pour gérer la résolution des conflits. Pour en avoir une
+        liste, il suffit d'exécuter la commande &laquo;&nbsp;<i>git mergetool</i>&nbsp;&raquo;. Exemple
+        (prérequis&nbsp;: avoir installé l'outil TortoiseMerge qui peut être téléchargé <a target="_blank"
+          href="https://tortoisesvn.net/TortoiseMerge.html" title="Outil TortoiseMerge">ici</a>)&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Configurer l'outil TortoiseMerge pour la résolution des conflits :
+git config --global merge.tool tortoisemerge
+
+# Démarrer l'outil :
+git mergetool
+
+          </code>
+        </pre>
+    </section>
+    <section class="partie partie-3 chapitre-2-partie-3" id="/chapitre-2/partie-3">
+      <h4>2.3. Créer et travailler sur une branche d'un projet</h4>
+      <p><strong>Git</strong> permet également de créer des versions alternatives d'un projet avec un suivi de version
+        alternatif. On appelle ces versions alternatives des <b>branches</b>. Pour créer une nouvelle <b>branche</b> on
+        utilise la commande &laquo;&nbsp;<i>git branch</i>&nbsp;&raquo; documentée <a target="_blank"
+          href="https://git-scm.com/docs/git-branch"
+          title="Documentation officielle de Git pour la commande git branch">ici</a>.</p>
+      <p>Par exemple&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Créer la branche "alternative-fact" :
+git branch alternative-fact
+
+# Lister les branches du projet :
+git branch
+
+          </code>
+        </pre>
+      <p>La branche marquée du symbole &laquo;&nbsp;<i>*</i>&nbsp;&raquo; est la branche active. Pour changer de
+        branche, on peut utiliser la commande &laquo;&nbsp;<i>git checkout</i>&nbsp;&raquo; documentée <a
+          target="_blank" href="https://git-scm.com/docs/git-checkout"
+          title="Documentation officielle de Git pour la commande git checkout">ici</a>.</p>
+      <p>Par exemple&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour utiliser la branche "alternative-fact" :
+git checkout alternative-fact
+
+# Lister les branches du projet :
+git branch
+
+          </code>
+        </pre>
+      <p>On peut effectuer ces deux opérations (créer une branche <strong><em>et</em></strong> se positionner sur cette
+        branche) à l'aide de la commande &laquo;&nbsp;<i>git checkout</i>&nbsp;&raquo; en écrivant&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour utiliser la branche "alternative-fact" :
+git checkout -b even-more-alternative-fact
+
+# Lister les branches du projet :
+git branch
+
+          </code>
+        </pre>
+      <p>Pour supprimer une branche on peut écrire&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour revenir sur la branche principale :
+git checkout master
+
+# Pour supprimer une branche :
+git branch -d even-more-alternative-fact
+
+          </code>
+        </pre>
+      <p>Pour créer une branche à partir d'un tag, on peut écrire&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour créer une branche à partir d'un tag :
+git branch even-more-alternative-fact 0.0.1
+
+# OU ALORS (pour créer une branche à partir d'un tag ET se positionner dessus)
+git checkout -b even-more-alternative-fact 0.0.1
+
+          </code>
+        </pre>
+      <p>Enfin, pour fusionner une branche avec la branche courante, on utilisera la commande &laquo;&nbsp;<i>git
+          merge</i>&nbsp;&raquo; documentée <a target="_blank" href="https://git-scm.com/docs/git-merge"
+          title="Documentation officielle de Git pour la commande git merge">ici</a>. Par exemple&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour se positionner sur une branche :
+git checkout alternative-fact
+
+# Fusionner la branche "even-more-alternative-fact"
+# avec la branche "alternative-fact" :
+git merge even-more-alternative-fact
+
+          </code>
+        </pre>
+    </section>
+    <section class="partie partie-4 chapitre-2-partie-4" id="/chapitre-2/partie-4">
+      <h4>2.4. Reprendre une version antérieure d'un projet</h4>
+      <p>Lorsqu'on travaille sur un projet on peut souhaiter accéder à une version antérieure d'un projet pour des
+        raisons de retro-compatibilité ou autre. On a deux possibilités.
+      <p>Soit la version antérieure est &laquo;&nbsp;taggée&nbsp;&raquo;. Dans ce cas on peut sélectionner ce
+        &laquo;&nbsp;tag&nbsp;&raquo; <strong><em>et</em></strong> créer une nouvelle branche pour travailler sur cette
+        version en écrivant&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Consulter la liste des tags :
+git tag
+
+# Pour sélectionner une version antérieure d'un projet
+# et se positionner sur une branche associée à cette version :
+git checkout tags/0.0.1 -b branche-0.0.1
+
+# Ici on choisit l'état du projet au niveau du tag 0.0.1
+# et on créé/se positionne sur la branche branche-0.0.1.
+
+# Vérifier qu'on est bien sur la nouvelle branche :
+git branch
+
+          </code>
+        </pre>
+      <p>Soit la version antérieure n'est pas &laquo;&nbsp;taggée&nbsp;&raquo; et on souhaite travailler sur une version
+        du projet à partir d'un &laquo;&nbsp;commit&nbsp;&raquo; particulier. Dans ce cas on peut écrire&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Consulter la liste des commits :
+git log
+
+# Pour sélectionner une version antérieure d'un projet
+# et se positionner sur une branche associée à cette version :
+git checkout abcdef1234567890abcdef1234567890abcdef12 -b branche-abcdef1234567890abcdef1234567890abcdef12
+
+# Ici on choisit l'état du projet au niveau du
+# commit abcdef1234567890abcdef1234567890abcdef12 et on créé/se positionne
+# sur la branche branche-abcdef1234567890abcdef1234567890abcdef12.
+
+# Vérifier qu'on est bien sur la nouvelle branche :
+git branch
+
+          </code>
+        </pre>
+    </section>
+    <section class="partie partie-5 chapitre-2-partie-5" id="/chapitre-2/partie-5">
+      <h4>2.5. Autres cas d'utilisation</h4>
+      <h5>Annuler des versions ou des modifications de fichiers</h5>
+      <p>Si on souhaite effacer les &laquo;commit&raquo; effectuées jusqu'à un certain &laquo;&nbsp;commit&nbsp;&raquo;,
+        on peut utiliser la commande &laquo;&nbsp;git reset&nbsp;&raquo; documentée <a target="_blank"
+          href="https://git-scm.com/docs/git-reset"
+          title="Documentation officielle de Git pour la commande git reset">ici</a>. Cette commande peut s'utiliser de
+        2 façons.</p>
+      <p>Soit on efface les &laquo;&nbsp;commit&nbsp;&raquo; enregistrés dans la base de données de suivi de version
+        mais on ne modifie pas les fichiers sources. L'objectif est alors de modifier l'historique des modifications à
+        partir d'un certain point. Il s'agit d'un &laquo;&nbsp;<b>reset SOFT</b>&nbsp;&raquo;. Par exemple&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Soit 3 commits (du plus ancien au plus récent) :
+# aaaaaa1111111111aaaaaa1111111111aaaaaa11
+# bbbbbb2222222222bbbbbb2222222222bbbbbb22
+# cccccc3333333333cccccc3333333333cccccc33
+# Pour revenir au commit bbbbbb2222222222bbbbbb2222222222bbbbbb22 :
+git reset --soft bbbbbb2222222222bbbbbb2222222222bbbbbb22
+
+# Le commit cccccc3333333333cccccc3333333333cccccc33 est supprimé.
+# Le code source n'est pas modifié.
+
+          </code>
+        </pre>
+      <p>Soit on efface les &laquo;&nbsp;commit&nbsp;&laquo; enregistrés dans la base de données de suivi de version
+        <strong><em>et</em></strong> on restaure les fichiers à leur état au niveau du &laquo;&nbsp;commit&nbsp;&raquo;
+        sélectionné. Il s'agit d'un &laquo;&nbsp;<b>reset HARD</b>&nbsp;&raquo;. Par exemple&nbsp;:
+      </p>
+      <pre>
+          <code class="language-bash">
+# Soit 3 commit (du plus ancien au plus récent) :
+# aaaaaa1111111111aaaaaa1111111111aaaaaa11
+# bbbbbb2222222222bbbbbb2222222222bbbbbb22
+# cccccc3333333333cccccc3333333333cccccc33
+# Pour revenir au commit bbbbbb2222222222bbbbbb2222222222bbbbbb22 :
+git reset --hard bbbbbb2222222222bbbbbb2222222222bbbbbb22
+
+# Le commit cccccc3333333333cccccc3333333333cccccc33 est supprimé.
+# Le code source est rétabli à l'état bbbbbb2222222222bbbbbb2222222222bbbbbb22
+
+          </code>
+        </pre>
+      <h5>Créer et appliquer un patch</h5>
+      <p>Un patch est un fichier qui contient un ou plusieurs commits ainsi que les modifications de fichiers associées.
+        On peut créer un patch en utilisant la commande &laquo;&nbsp;<i>git format-patch</i>&nbsp;&raquo; documentée <a
+          target="_blank" href="https://git-scm.com/docs/git-format-patch"
+          title="Documentation officielle de Git pour la commande git format-patch">ici</a>. Pour utiliser la commande
+        pour, par exemple, obtenir un patch dans lequel on retrouve toutes les modifications effectuées par rapport au
+        dépôt distant, on écrirait&nbsp; :</p>
+      <pre>
+          <code class="language-bash">
+# Mettre à jour les informations de versions concernant le dépôt distant :
+git fetch origin
+
+# On extrait toutes les modifications effectuées par rapport au dépôt
+# distant et on les insère dans le fichier mon.patch :
+git format-patch origin --stdout > mon.patch
+
+          </code>
+        </pre>
+      <p>Pour appliquer ce patch sur un autre dossier qui contiendrait le projet on utiliserait la commande
+        &laquo;&nbsp;<i>git apply</i>&nbsp;&raquo; documentée <a target="_blank"
+          href="https://git-scm.com/docs/git-apply"
+          title="Documentation officielle de Git pour la commande git apply">ici</a>. Par exemple&nbsp;:</p>
+      <pre>
+          <code class="language-bash">
+# Pour appliquer le patch mon.patch à un projet :
+git apply mon.patch
+
+          </code>
+        </pre>
+      <h5>Stocker temporairement des modifications</h5>
+      <p>Il est possible de stocker temporairement des modifications apportées à un dépôt local et revenir au dernier
+        état du HEAD de la branche de travail en cours en utilisant la commande &laquo;&nbsp;<i>git
+          stash</i>&nbsp;&raquo; documentée <a target="_blank" href="https://git-scm.com/docs/git-stash"
+          title="Documentation officielle de Git pour la commande git-stash">ici</a>. Pour utiliser la commande
+        pour, par exemple, stocker des changements dont on est incertain de l'utilité dans notre code, on écrirait&nbsp;
+        :</p>
+      <pre>
+            <code class="language-bash">
+  # Stocker les changements dans un dossier temporaire :
+  git stash
+  
+  # Lister les changements stockés :
+  git stash list
+
+  # Afficher les changements stockés (ou un seul) :
+  git stash show [id du stash]
+
+  # Pour réincorporer les changements
+  # stockés à la branche de travail en cours (ou un seul) :
+  git stash apply [id du stash]
+
+  # Créer une branche commençant à l'endroit des
+  # changements que l'on stocke et se positionner
+  # dessus :
+  git stash branch [nom de la branche à créer] [id du stash]
+
+  # ATTENTION il est possible, si on le souhaite,
+  # de supprimer les changements stockés. Ces
+  # changements seront détruits et ne pourront
+  # plus être récupérés !
+
+  # Détruire les changements stockés :
+  git stash clear
+  
+            </code>
+          </pre>
+    </section>
+  </section>
+  <footer>
+    <p>Git&nbsp;: Apprendre à utiliser un gestionnaire de code source - Sami Radi - <a target="_blank"
+        href="http://www.virtuoworks.com/" title="VirtuoWorks">VirtuoWorks&reg;</a> - tous droits réservés&copy;</p>
+  </footer>
+</body>
+
+</html>
