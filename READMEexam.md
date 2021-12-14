@@ -1,3 +1,5 @@
 Ici on met les paroles :
-K 1
-N 2
+
+N : Petit poney, petit poney
+Petit poney, petit poney
+Tu es tout gris et tout Petit
